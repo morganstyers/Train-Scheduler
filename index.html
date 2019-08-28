@@ -93,8 +93,15 @@ $("#submit").on("click", function(event){
     var destination=$("#destination-input").val().trim();
     var time=$("#time-input").val().tirm();
     var frequency=$("#frequency-input").val().trim();
-})
 
+    var addTrain={
+        name:name,
+        destination:destination,
+        time: time,
+        frequency: frequency
+    }
+})
+database.ref().push(addTrain);
 })
 </script>
 
