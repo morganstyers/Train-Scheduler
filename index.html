@@ -8,8 +8,8 @@
     <link rel="stylesheet" type="text/css" href="./style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-database.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -74,7 +74,17 @@
     console.log("I just took a DNA test turns out I'm 100% that bitch...(a working app)");
 
 
-
+    var firebaseConfig = {
+    apiKey: "AIzaSyCgbKMJO6HtagpHA4Q6e6gAaqdSC4D6T58",
+    authDomain: "train-scheduler-91496.firebaseapp.com",
+    databaseURL: "https://train-scheduler-91496.firebaseio.com",
+    projectId: "train-scheduler-91496",
+    storageBucket: "",
+    messagingSenderId: "1094804214460",
+    appId: "1:1094804214460:web:ae4c2eef5f68e61c"
+  };
+  
+  firebase.initializeApp(firebaseConfig);
 
 })
 </script>
