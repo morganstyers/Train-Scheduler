@@ -1,6 +1,14 @@
-#head{
-    text-align: center;
-    margin-top: 20px;
+#schedule{
     margin-right: 5%;
     margin-left: 5%;
+}
+#add{
+    margin-right: 5%;
+    margin-left: 5%;
+}
+#head{
+    margin-right: 5%;
+    margin-left: 5%;
+    text-align: center;
+    margin-top: 20px;
 }
