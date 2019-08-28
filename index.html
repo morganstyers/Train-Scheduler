@@ -12,7 +12,7 @@
     <script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-database.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
-    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <title>Trian Scheduler || Morgan Styers</title>
 </head>
 
@@ -45,7 +45,7 @@
     </div>
     <br>
     <div id="add" class="card">
-        
+
         <div class="card-header">Add Train</div>
         <div class="card-body">
             <form>
@@ -69,41 +69,47 @@
             </form>
         </div>
     </div>
-        <script>
-        $(document).ready(function(){
-    console.log("I just took a DNA test turns out I'm 100% that bitch...(a working app)");
+    <script>
+        $(document).ready(function () {
+            console.log("I just took a DNA test turns out I'm 100% that bitch...(a working app)");
 
 
-    var firebaseConfig = {
-    apiKey: "AIzaSyCgbKMJO6HtagpHA4Q6e6gAaqdSC4D6T58",
-    authDomain: "train-scheduler-91496.firebaseapp.com",
-    databaseURL: "https://train-scheduler-91496.firebaseio.com",
-    projectId: "train-scheduler-91496",
-    storageBucket: "",
-    messagingSenderId: "1094804214460",
-    appId: "1:1094804214460:web:ae4c2eef5f68e61c"
-  };
+            var firebaseConfig = {
+                apiKey: "AIzaSyCgbKMJO6HtagpHA4Q6e6gAaqdSC4D6T58",
+                authDomain: "train-scheduler-91496.firebaseapp.com",
+                databaseURL: "https://train-scheduler-91496.firebaseio.com",
+                projectId: "train-scheduler-91496",
+                storageBucket: "",
+                messagingSenderId: "1094804214460",
+                appId: "1:1094804214460:web:ae4c2eef5f68e61c"
+            };
 
-  firebase.initializeApp(firebaseConfig);
+            firebase.initializeApp(firebaseConfig);
+            var database= firebase.database();
 
-$("#submit").on("click", function(event){
-    event.preventDefault();
+            $("#submit").on("click", function (event) {
+                event.preventDefault();
 
-    var name= $("#train-input").val().trim();
-    var destination=$("#destination-input").val().trim();
-    var time=$("#time-input").val().tirm();
-    var frequency=$("#frequency-input").val().trim();
+                var addName = $("#train-input").val().trim();
+                var addDestination = $("#destination-input").val().trim();
+                var addTime = $("#time-input").val().tirm();
+                var addFrequency = $("#frequency-input").val().trim();
 
-    var addTrain={
-        name:name,
-        destination:destination,
-        time: time,
-        frequency: frequency
-    }
-})
-database.ref().push(addTrain);
-})
-</script>
+                var addTrain = {
+                    name: addName,
+                    destination: addDestination,
+                    time: addTime,
+                    frequency: addFrequency
+                }
+                database.ref().push(addTrain)
+            console.log(name);
+            console.log(destination);
+            console.log(time);
+            console.log(frequency);
+            })
+         
+        })
+    </script>
 
 </body>
 
