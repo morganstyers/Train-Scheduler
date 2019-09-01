@@ -30,15 +30,21 @@
         <div class="card-body">
             <table class="table table-sm table-hover" id='train-table'>
                 <thead>
-                <tr>
+                    <tr>
                         <th scope="col">Train Name</th>
                         <th scope="col">Destination</th>
                         <th scope="col">Frequency (min)</th>
                         <th scope="col">Next Arrival</th>
                         <th scope="col">Minutes Away</th>
-                </tr>
+                    </tr>
                 </thead>
                 <tbody>
+                    <tr class="k">
+                        <td id="train-display"></td>
+                        <td id="dest-display"></td>
+                        <td id="time-display"></td>
+                        <td id="freq-display"></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -112,45 +118,43 @@
                 }
                 //retrieves data from train database (step 3)
                 database.ref().push(addTrain)
-
-                console.log(addName);
-                console.log(addDestination);
-                console.log(addTime);
-                console.log(addFrequency);
+            })
 
                 $("#train-input").val("");
                 $("#destination-input").val("");
                 $("#time-input").val("");
                 $("#frequency-input").val("");
-            })//end of click function
+
+            //end of click function
 
             /*firebase event that adds train to the database and a row 
             in the html a user adds an entry*/
-            database.ref().on("child_added", function (childSnapshot) {
+            database.ref().on("child_added", function (snapshot) {
+                var sv = snapshot.val();
 
-                console.log(childSnapshot.val());
+                console.log(sv.name);
+                console.log(sv.destination);
+                console.log(sv.time);
+                console.log(sv.frequency);
 
-                var addName = childSnapshot.val().name;
-                var addDestination = childSnapshot.val().addDestination;
-                var addTime = childSnapshot.val().addTime;
-                var addFrequency = childSnapshot.val().addFrequency;
+                $("#train-display").text(sv.name);
+                $("#dest-display").text(sv.destination);
+                $("#freq-display").text(sv.frequency);
+                $("#time-display").text(sv.time);
 
-                console.log(addName);
-                console.log(addDestination);
-                console.log(addTime);
-                console.log(addFrequency);
 
-                var display = $("<th>").text(
-                    $("<tr>").text(addName),
-                    $("<tr>").text(addDestination),
-                    $("<tr>").text(addTime),
-                    $("<tr>").text(addFrequency)
-                );
-                $("#train-table > tbody").append(display)
+
+
+            }, function (errorObject) {
+                console.log("Errors handled: " + errorObject.code);
             });
+
+
+
+
             //also step 5. math is bad.
-            var trainF = 30;
-            var firstTime = "7:30"
+            var trainF = database.ref().frequency;
+            var firstTime =database.ref().time;
             var convert = moment(firstTime, "HH:mm").subtract(1, "years");
             console.log(convert);
 
@@ -169,6 +173,7 @@
             var minTill = moment().add(nextTrain, "minutes");
             console.log("ARRIVAL TIME: " + moment(minTill).format("hh:mm"));
         })
+
     </script>
 
 </body>
