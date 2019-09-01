@@ -118,14 +118,12 @@
                 }
                 //retrieves data from train database (step 3)
                 database.ref().push(addTrain)
-            })
 
                 $("#train-input").val("");
                 $("#destination-input").val("");
                 $("#time-input").val("");
                 $("#frequency-input").val("");
-
-            //end of click function
+            })
 
             /*firebase event that adds train to the database and a row 
             in the html a user adds an entry*/
@@ -142,16 +140,9 @@
                 $("#freq-display").text(sv.frequency);
                 $("#time-display").text(sv.time);
 
-
-
-
             }, function (errorObject) {
                 console.log("Errors handled: " + errorObject.code);
             });
-
-
-
-
             //also step 5. math is bad.
             var trainF = database.ref().frequency;
             var firstTime =database.ref().time;
