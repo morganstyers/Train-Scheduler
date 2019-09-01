@@ -165,10 +165,10 @@
             console.log("MINUTES TILL TRAIN: " + minTill);
 
             var nextTrain = moment().add(minTill, "minutes");
-            console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+            console.log("ARRIVAL TIME: " + moment(nextTrain).format("ddd, hA"));
 
             $("#min-display").append(minTill);
-            $("#next-display").text(nextTrain);
+            $("#next-display").text(nextTrain.format("ddd, hA"));
         })
 
     </script>
