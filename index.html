@@ -28,15 +28,15 @@
     <div id="schedule" class="card">
         <div class="card-header">Current Train Schedule</div>
         <div class="card-body">
-            <table class="table table-sm table-hover" id='employee-table'>
+            <table class="table table-sm table-hover" id='train-table'>
                 <thead>
-                    <tr>
+                <tr>
                         <th scope="col">Train Name</th>
                         <th scope="col">Destination</th>
                         <th scope="col">Frequency (min)</th>
                         <th scope="col">Next Arrival</th>
                         <th scope="col">Minutes Away</th>
-                    </tr>
+                </tr>
                 </thead>
                 <tbody>
                 </tbody>
@@ -45,6 +45,7 @@
     </div>
     <br>
     <div id="add" class="card">
+
 
         <div class="card-header">Add Train</div>
         <div class="card-body">
@@ -70,10 +71,17 @@
         </div>
     </div>
     <script>
+        /* 1. Initialize Firebase
+           2.Create button for adding new train-then update the HTML+update the database
+           3.Create a way to retrieve data from the train database
+           4.Create a way to calculate new arrival using difference between start and current time. Use moment
+           js formatting to set difference in minutes. Show x minutes away.
+           5. Calculate minutes.     
+        */
         $(document).ready(function () {
             console.log("I just took a DNA test turns out I'm 100% that bitch...(a working app)");
 
-
+            //firebase initialized and configured (step 1)
             var firebaseConfig = {
                 apiKey: "AIzaSyCgbKMJO6HtagpHA4Q6e6gAaqdSC4D6T58",
                 authDomain: "train-scheduler-91496.firebaseapp.com",
@@ -85,14 +93,15 @@
             };
 
             firebase.initializeApp(firebaseConfig);
-            var database= firebase.database();
+            var database = firebase.database();
 
+            //click function for adding trains (step 2)
             $("#submit").on("click", function (event) {
                 event.preventDefault();
 
                 var addName = $("#train-input").val().trim();
                 var addDestination = $("#destination-input").val().trim();
-                var addTime = $("#time-input").val().tirm();
+                var addTime = $("#time-input").val().trim();
                 var addFrequency = $("#frequency-input").val().trim();
 
                 var addTrain = {
@@ -101,13 +110,64 @@
                     time: addTime,
                     frequency: addFrequency
                 }
+                //retrieves data from train database (step 3)
                 database.ref().push(addTrain)
-            console.log(name);
-            console.log(destination);
-            console.log(time);
-            console.log(frequency);
-            })
-         
+
+                console.log(addName);
+                console.log(addDestination);
+                console.log(addTime);
+                console.log(addFrequency);
+
+                $("#train-input").val("");
+                $("#destination-input").val("");
+                $("#time-input").val("");
+                $("#frequency-input").val("");
+            })//end of click function
+
+            /*firebase event that adds train to the database and a row 
+            in the html a user adds an entry*/
+            database.ref().on("child_added", function (childSnapshot) {
+
+                console.log(childSnapshot.val());
+
+                var addName = childSnapshot.val().name;
+                var addDestination = childSnapshot.val().addDestination;
+                var addTime = childSnapshot.val().addTime;
+                var addFrequency = childSnapshot.val().addFrequency;
+
+                console.log(addName);
+                console.log(addDestination);
+                console.log(addTime);
+                console.log(addFrequency);
+
+                var display = $("<th>").text(
+                    $("<tr>").text(addName),
+                    $("<tr>").text(addDestination),
+                    $("<tr>").text(addTime),
+                    $("<tr>").text(addFrequency)
+                );
+                $("#train-table > tbody").append(display)
+            });
+            //also step 5. math is bad.
+            var trainF = 30;
+            var firstTime = "7:30"
+            var convert = moment(firstTime, "HH:mm").subtract(1, "years");
+            console.log(convert);
+
+            var now = moment();
+            console.log("CURRENT TIME: " + moment(now).format("hh:mm"));
+
+            var later = moment().diff(moment(convert), "minutes");
+            console.log("Difference In Time: " + later);
+
+            var tRemainder = later % trainF;
+            console.log(tRemainder);
+
+            var nextTrain = trainF - tRemainder;
+            console.log("MINUTES TILL TRAIN: " + nextTrain);
+
+            var minTill = moment().add(nextTrain, "minutes");
+            console.log("ARRIVAL TIME: " + moment(minTill).format("hh:mm"));
         })
     </script>
 
