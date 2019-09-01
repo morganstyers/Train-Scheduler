@@ -42,8 +42,9 @@
                     <tr class="k">
                         <td id="train-display"></td>
                         <td id="dest-display"></td>
-                        <td id="time-display"></td>
                         <td id="freq-display"></td>
+                        <td id="next-display"></td>
+                        <td id="min-display"></td>
                     </tr>
                 </tbody>
             </table>
@@ -69,7 +70,7 @@
                     <input class="form-control" id="time-input" placeholder="7:30pm" type="time">
                 </div>
                 <div class="form-group">
-                    <label for="frequency-input">Frequency (min)</label>
+                    <label for="frequency-input">Frequency </label>
                     <input class="form-control" id="frequency-input" placeholder="30" type="number">
                 </div>
                 <button class="btn btn-primary float-right" id="submit">Submit</button>
@@ -137,15 +138,17 @@
 
                 $("#train-display").text(sv.name);
                 $("#dest-display").text(sv.destination);
-                $("#freq-display").text(sv.frequency);
-                $("#time-display").text(sv.time);
+                $("#freq-display").text(sv.frequency+ " minutes");
 
             }, function (errorObject) {
                 console.log("Errors handled: " + errorObject.code);
             });
             //also step 5. math is bad.
-            var trainF = database.ref().frequency;
-            var firstTime =database.ref().time;
+            
+            var freq = 9;
+
+            var firstTime = "07:30";
+
             var convert = moment(firstTime, "HH:mm").subtract(1, "years");
             console.log(convert);
 
@@ -155,14 +158,17 @@
             var later = moment().diff(moment(convert), "minutes");
             console.log("Difference In Time: " + later);
 
-            var tRemainder = later % trainF;
+            var tRemainder = now % freq;
             console.log(tRemainder);
 
-            var nextTrain = trainF - tRemainder;
-            console.log("MINUTES TILL TRAIN: " + nextTrain);
+            var minTill = freq- tRemainder;
+            console.log("MINUTES TILL TRAIN: " + minTill);
 
-            var minTill = moment().add(nextTrain, "minutes");
-            console.log("ARRIVAL TIME: " + moment(minTill).format("hh:mm"));
+            var nextTrain = moment().add(minTill, "minutes");
+            console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
+            $("#min-display").append(minTill);
+            $("#next-display").text(nextTrain);
         })
 
     </script>
