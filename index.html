@@ -38,14 +38,7 @@
                         <th scope="col">Minutes Away</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="k">
-                        <td id="train-display"></td>
-                        <td id="dest-display"></td>
-                        <td id="freq-display"></td>
-                        <td id="next-display"></td>
-                        <td id="min-display"></td>
-                    </tr>
+                <tbody id="t">
                 </tbody>
             </table>
         </div>
@@ -66,8 +59,12 @@
                     <input class="form-control" id="destination-input" placeholder="Los Angeles" type="text">
                 </div>
                 <div class="form-group">
-                    <label for="time-input">First Train Time</label>
-                    <input class="form-control" id="time-input" placeholder="7:30pm" type="time">
+                    <label for="time-input">
+                        <h6>First Train Time</h6>
+                        <span>( Military Time hh:mm)</span>
+                    </label>
+                    <input class="form-control" id="time-input" placeholder="7:30pm" type="time" min="00:00" max="00:00"
+                        required>
                 </div>
                 <div class="form-group">
                     <label for="frequency-input">Frequency </label>
@@ -111,11 +108,12 @@
                 var addTime = $("#time-input").val().trim();
                 var addFrequency = $("#frequency-input").val().trim();
 
+
                 var addTrain = {
                     name: addName,
                     destination: addDestination,
                     time: addTime,
-                    frequency: addFrequency
+                    frequency: addFrequency,
                 }
                 //retrieves data from train database (step 3)
                 database.ref().push(addTrain)
@@ -124,28 +122,27 @@
                 $("#destination-input").val("");
                 $("#time-input").val("");
                 $("#frequency-input").val("");
+
             })
 
             /*firebase event that adds train to the database and a row 
             in the html a user adds an entry*/
             database.ref().on("child_added", function (snapshot) {
                 var sv = snapshot.val();
-
-                console.log(sv.name);
-                console.log(sv.destination);
-                console.log(sv.time);
-                console.log(sv.frequency);
-
-                $("#train-display").text(sv.name);
-                $("#dest-display").text(sv.destination);
-                $("#freq-display").text(sv.frequency+ " minutes");
+                console.log(sv);
+                $("#t").append("<tr> <td>" + sv.name +
+                    "</td> <td>" + sv.destination +
+                    "</td> <td>" + freq +
+                    "</td> <td>" + nextTrain +
+                    "</td> <td>" + minTill + " </td> </tr>");
 
             }, function (errorObject) {
                 console.log("Errors handled: " + errorObject.code);
             });
+
             //also step 5. math is bad.
-            
-            var freq = 9;
+
+            var freq = 0;
 
             var firstTime = "07:30";
 
@@ -161,15 +158,16 @@
             var tRemainder = now % freq;
             console.log(tRemainder);
 
-            var minTill = freq- tRemainder;
+            var minTill = freq - tRemainder;
             console.log("MINUTES TILL TRAIN: " + minTill);
 
-            var nextTrain = moment().add(minTill, "minutes");
+            var next = moment().add(minTill, "ddd, hA");
             console.log("ARRIVAL TIME: " + moment(nextTrain).format("ddd, hA"));
 
-            $("#min-display").append(minTill);
-            $("#next-display").text(nextTrain.format("ddd, hA"));
-        })
+            var nextTrain = moment(next).format("ddd, hA")
+
+
+        });
 
     </script>
 
