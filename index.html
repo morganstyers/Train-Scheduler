@@ -52,7 +52,7 @@
             <form>
                 <div class="form-group">
                     <label for="train-input">Train Name</label>
-                    <input class="form-control" id="train-input" placeholder="Thomas" type="text">
+                    <input class="form-control" id="train-input" placeholder="Cute Caboose" type="text">
                 </div>
                 <div class="form-group">
                     <label for="destination-input">Destination</label>
@@ -61,14 +61,12 @@
                 <div class="form-group">
                     <label for="time-input">
                         <h6>First Train Time</h6>
-                        <span>( Military Time hh:mm)</span>
                     </label>
-                    <input class="form-control" id="time-input" placeholder="7:30pm" type="time" min="00:00" max="00:00"
-                        required>
+                    <input class="form-control" id="time-input" type="text" placeholder="HH:mm">
                 </div>
                 <div class="form-group">
                     <label for="frequency-input">Frequency </label>
-                    <input class="form-control" id="frequency-input" placeholder="30" type="number">
+                    <input class="form-control" id="frequency-input" placeholder="10 Minutes" type="number">
                 </div>
                 <button class="btn btn-primary float-right" id="submit">Submit</button>
             </form>
@@ -84,7 +82,9 @@
         */
         $(document).ready(function () {
             console.log("I just took a DNA test turns out I'm 100% that bitch...(a working app)");
-          $("#train-table").clearQueue();
+            
+            $("#train-table").clearQueue();
+
 
             //firebase initialized and configured (step 1)
             var firebaseConfig = {
@@ -99,11 +99,11 @@
 
             firebase.initializeApp(firebaseConfig);
             var database = firebase.database();
-            
+
 
             //click function for adding trains (step 2)
             $("#submit").on("click", function (event) {
-                
+
                 event.preventDefault();
 
                 var addName = $("#train-input").val().trim();
@@ -111,6 +111,11 @@
                 var addTime = $("#time-input").val().trim();
                 var addFrequency = $("#frequency-input").val().trim();
 
+
+                var mt = "HH:mm";
+                var t = "hh:mm A";
+                var mTime = moment(addTime,mt);
+                var rTime= moment(addTime,t);
 
                 var addTrain = {
                     name: addName,
