@@ -84,6 +84,7 @@
         */
         $(document).ready(function () {
             console.log("I just took a DNA test turns out I'm 100% that bitch...(a working app)");
+          $("#train-table").clearQueue();
 
             //firebase initialized and configured (step 1)
             var firebaseConfig = {
@@ -98,9 +99,11 @@
 
             firebase.initializeApp(firebaseConfig);
             var database = firebase.database();
+            
 
             //click function for adding trains (step 2)
             $("#submit").on("click", function (event) {
+                
                 event.preventDefault();
 
                 var addName = $("#train-input").val().trim();
@@ -114,6 +117,7 @@
                     destination: addDestination,
                     time: addTime,
                     frequency: addFrequency,
+                    dateAdded: firebase.database.ServerValue.TIMESTAMP,
                 }
                 //retrieves data from train database (step 3)
                 database.ref().push(addTrain)
@@ -130,6 +134,7 @@
             database.ref().on("child_added", function (snapshot) {
                 var sv = snapshot.val();
                 console.log(sv);
+
                 $("#t").append("<tr> <td>" + sv.name +
                     "</td> <td>" + sv.destination +
                     "</td> <td>" + freq +
