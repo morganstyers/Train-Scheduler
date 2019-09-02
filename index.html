@@ -21,7 +21,8 @@
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
                 <h1 class="display-4">Train Schedule</h1>
-                <p class="lead">ride a train don't get murdered.</p>
+                <h4>The Current Time Is Now</h4>
+                <p id="now" class="lead"></p>
             </div>
         </div>
     </div>
@@ -82,9 +83,11 @@
         */
         $(document).ready(function () {
             console.log("I just took a DNA test turns out I'm 100% that bitch...(a working app)");
-            
             $("#train-table").clearQueue();
 
+            setInterval(function(timeKeep){
+                $("#now").text(moment().format('MMMM Do YYYY, hh:mm a'))
+            }, 1000);
 
             //firebase initialized and configured (step 1)
             var firebaseConfig = {
@@ -110,21 +113,19 @@
                 var addDestination = $("#destination-input").val().trim();
                 var addTime = $("#time-input").val().trim();
                 var addFrequency = $("#frequency-input").val().trim();
+                
 
-
-                var mt = "HH:mm";
-                var t = "hh:mm A";
-                var mTime = moment(addTime,mt);
-                var rTime= moment(addTime,t);
+             
 
                 var addTrain = {
                     name: addName,
                     destination: addDestination,
-                    time: addTime,
+                    time: newTime,
                     frequency: addFrequency,
                     dateAdded: firebase.database.ServerValue.TIMESTAMP,
                 }
-                //retrieves data from train database (step 3)
+                var newTime= moment(time).format('hh:mm A')
+                
                 database.ref().push(addTrain)
 
                 $("#train-input").val("");
@@ -152,9 +153,9 @@
 
             //also step 5. math is bad.
 
-            var freq = 0;
+            var freq;
 
-            var firstTime = "07:30";
+            var firstTime;
 
             var convert = moment(firstTime, "HH:mm").subtract(1, "years");
             console.log(convert);
