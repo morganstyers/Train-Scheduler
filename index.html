@@ -131,9 +131,9 @@
             database.ref().on("child_added", function (snapshot) {
                 var sv = snapshot.val();
                 
-                var convert = moment(sv.time, "HH:mm").subtract(1, "years");
+                var convert = moment(now, "HH:mm").subtract(1, "years");
                 console.log(convert);
-                var now = moment(sv.time, "hh:mm A");
+                var now= currentTime;
                 console.log("CURRENT TIME: " + moment(now).format("hh:mm A"));
                 var later = moment().diff(moment(convert), "minutes");
                 console.log("Difference In Time: " + later);
@@ -151,8 +151,6 @@
                     "</td> <td>" + nextTrain +
                     "</td> <td>" + minTill + " </td> </tr>");
 
-                
-            
 
             }, function (errorObject) {
                 console.log("Errors handled: " + errorObject.code);
