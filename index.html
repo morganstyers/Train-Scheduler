@@ -34,9 +34,9 @@
         <p id="now" class="lead"></p>
 
     </div>
-    </div>
+    <div class="container">
     <div id="schedule" class="card">
-        <div class="card-header">Current Train Schedule</div>
+        <div id="top" class="card-header"><h4>Running Today</h4></div>
         <div class="card-body" class="animated infinite bounce delay-2s" id="bounce">
             <table class="table table-xs table-hover" id='train-table'>
                 <thead>
@@ -53,10 +53,11 @@
             </table>
         </div>
     </div>
-    <br>
-    <div class="container">
-        <button id="see" type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModal">
-            Add Train </button>
+</div>
+
+    <div id="see" style="text-align: center">
+    <button  class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModal"> Add Train </button>
+</div>
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -137,6 +138,7 @@
                     var time = "";
                     var frequency = "";
                     var minAway = "";
+
                     $("#submit").on("click", function (event) {
                         event.preventDefault();
                         const element = document.querySelector('#bounce')
@@ -160,7 +162,8 @@
                         $("#frequency-input").val("");
 
                     })
-                    //add modal 
+
+
                     database.ref().on("child_added", function (snapshot) {
                         var sv = snapshot.val();
 
