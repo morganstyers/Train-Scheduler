@@ -35,10 +35,10 @@
 
     </div>
     <div class="container">
-    <div id="schedule" class="card">
+    <div id="schedule" class="card border-dark">
         <div id="top" class="card-header"><h4>Running Today</h4></div>
         <div class="card-body" class="animated infinite bounce delay-2s" id="bounce">
-            <table class="table table-xs table-hover" id='train-table'>
+            <table class="table table-xs table-dark table-hover" id='train-table'>
                 <thead>
                     <tr>
                         <th scope="col">Train Name</th>
@@ -114,6 +114,8 @@
                    5. Calculate minutes.     
                 */
                 $(document).ready(function () {
+                    const element = document.querySelector('#bounce')
+                        element.classList.add('animated', 'lightSpeedIn')
                     $("#MyModal").modal({
                         keyboard: false
                     })
@@ -142,7 +144,7 @@
                     $("#submit").on("click", function (event) {
                         event.preventDefault();
                         const element = document.querySelector('#bounce')
-                        element.classList.add('animated', 'flipInX')
+                        element.classList.add('animated', 'flip')
 
                         var addName = $("#train-input").val().trim();
                         var addDestination = $("#destination-input").val().trim();
