@@ -8,28 +8,37 @@
     <link rel="stylesheet" type="text/css" href="./style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
     <script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-database.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
         integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+        integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+        integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
     <title>Train Scheduler || Morgan Styers</title>
 </head>
 
 <body>
     <div id="head">
-        <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-                <h1 class="display-4">Train Schedule</h1>
-                <h4>The Current Time Is Now</h4>
-                <p id="now" class="lead"></p>
-            </div>
-        </div>
+
+        <h1 class="display-4">Train Schedule</h1>
+        <h4>The Current Time Is Now</h4>
+        <p id="now" class="lead"></p>
+
+    </div>
     </div>
     <div id="schedule" class="card">
         <div class="card-header">Current Train Schedule</div>
-        <div class="card-body">
-            <table class="table table-sm table-hover" id='train-table'>
+        <div class="card-body" class="animated infinite bounce delay-2s" id="bounce">
+            <table class="table table-xs table-hover" id='train-table'>
                 <thead>
                     <tr>
                         <th scope="col">Train Name</th>
@@ -45,119 +54,145 @@
         </div>
     </div>
     <br>
-    <div id="add" class="card">
+    <div class="container">
+        <button id="see" type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModal">
+            Add Train </button>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Train</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="add" class="card">
+                            <div class="card-body">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="train-input">Train Name</label>
+                                        <input class="form-control" id="train-input" placeholder="Cute Caboose"
+                                            type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="destination-input">Destination</label>
+                                        <input class="form-control" id="destination-input" placeholder="Los Angeles"
+                                            type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="time-input">
+                                            <h6>First Train Time<p>(Military Time --- HH:mm)</p>
+                                            </h6>
+                                        </label>
 
+                                        <input class="form-control" id="time-input" type="text" placeholder="03:33 PM">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="frequency-input">Frequency </label>
+                                        <input class="form-control" id="frequency-input" placeholder="10 Minutes"
+                                            type="number">
+                                    </div>
+                                    <button class="btn btn-primary float-right" data-dismiss="modal"
+                                        id="submit">Submit</button>
+                                </form>
+                            </div>
+                        </div>
 
-        <div class="card-header">Add Train</div>
-        <div class="card-body">
-            <form>
-                <div class="form-group">
-                    <label for="train-input">Train Name</label>
-                    <input class="form-control" id="train-input" placeholder="Cute Caboose" type="text">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="destination-input">Destination</label>
-                    <input class="form-control" id="destination-input" placeholder="Los Angeles" type="text">
-                </div>
-                <div class="form-group">
-                    <label for="time-input">
-                        <h6>First Train Time</h6>
-                    </label>
-                    <input class="form-control" id="time-input" type="text" placeholder="HH:mm">
-                </div>
-                <div class="form-group">
-                    <label for="frequency-input">Frequency </label>
-                    <input class="form-control" id="frequency-input" placeholder="10 Minutes" type="number">
-                </div>
-                <button class="btn btn-primary float-right" id="submit">Submit</button>
-            </form>
-        </div>
-    </div>
-    <script>
-        /* 1. Initialize Firebase
-           2.Create button for adding new train-then update the HTML+update the database
-           3.Create a way to retrieve data from the train database
-           4.Create a way to calculate new arrival using difference between start and current time. Use moment
-           js formatting to set difference in minutes. Show x minutes away.
-           5. Calculate minutes.     
-        */
-        $(document).ready(function () {
-            $("#train-table").clearQueue();
+            </div>
 
-            var currentTime=setInterval(function (timeKeep) {
-                $("#now").text(moment().format('MMMM Do YYYY, hh:mm a'))
-            }, 1000);
+            <script>
+                /* 1. Initialize Firebase
+                   2.Create button for adding new train-then update the HTML+update the database
+                   3.Create a way to retrieve data from the train database
+                   4.Create a way to calculate new arrival using difference between start and current time. Use moment
+                   js formatting to set difference in minutes. Show x minutes away.
+                   5. Calculate minutes.     
+                */
+                $(document).ready(function () {
+                    $("#MyModal").modal({
+                        keyboard: false
+                    })
 
-            var firebaseConfig = {
-                apiKey: "AIzaSyCgbKMJO6HtagpHA4Q6e6gAaqdSC4D6T58",
-                authDomain: "train-scheduler-91496.firebaseapp.com",
-                databaseURL: "https://train-scheduler-91496.firebaseio.com",
-                projectId: "train-scheduler-91496",
-                storageBucket: "",
-                messagingSenderId: "1094804214460",
-                appId: "1:1094804214460:web:ae4c2eef5f68e61c"
-            };
-            firebase.initializeApp(firebaseConfig);
-            var database = firebase.database();
-            var train = "";
-            var destination = "";
-            var time = "";
-            var frequency = "";
-            var minAway = "";
+                    $("#train-table").clearQueue();
+                    var currentTime = setInterval(function (timeKeep) {
+                        $("#now").text(moment().format('MMMM Do YYYY, hh:mm a'))
+                    }, 1000);
+                    var firebaseConfig = {
+                        apiKey: "AIzaSyCgbKMJO6HtagpHA4Q6e6gAaqdSC4D6T58",
+                        authDomain: "train-scheduler-91496.firebaseapp.com",
+                        databaseURL: "https://train-scheduler-91496.firebaseio.com",
+                        projectId: "train-scheduler-91496",
+                        storageBucket: "",
+                        messagingSenderId: "1094804214460",
+                        appId: "1:1094804214460:web:ae4c2eef5f68e61c"
+                    };
+                    firebase.initializeApp(firebaseConfig);
+                    var database = firebase.database();
+                    var train = "";
+                    var destination = "";
+                    var time = "";
+                    var frequency = "";
+                    var minAway = "";
+                    $("#submit").on("click", function (event) {
+                        event.preventDefault();
+                        const element = document.querySelector('#bounce')
+                        element.classList.add('animated', 'flipInX')
 
+                        var addName = $("#train-input").val().trim();
+                        var addDestination = $("#destination-input").val().trim();
+                        var addTime = $("#time-input").val().trim();
+                        var addFrequency = $("#frequency-input").val().trim();
+                        var addTrain = {
+                            name: addName,
+                            destination: addDestination,
+                            time: addTime,
+                            frequency: addFrequency,
+                            dateAdded: firebase.database.ServerValue.TIMESTAMP,
+                        }
+                        database.ref().push(addTrain)
+                        $("#train-input").val("");
+                        $("#destination-input").val("");
+                        $("#time-input").val("");
+                        $("#frequency-input").val("");
 
-            $("#submit").on("click", function (event) {
-                event.preventDefault();
-                var addName = $("#train-input").val().trim();
-                var addDestination = $("#destination-input").val().trim();
-                var addTime = $("#time-input").val().trim();
-                var addFrequency = $("#frequency-input").val().trim();
+                    })
+                    //add modal 
+                    database.ref().on("child_added", function (snapshot) {
+                        var sv = snapshot.val();
 
-                var addTrain = {
-                    name: addName,
-                    destination: addDestination,
-                    time: addTime,
-                    frequency: addFrequency,
-                    dateAdded: firebase.database.ServerValue.TIMESTAMP,
-                }
+                        var convert = moment(now, "HH:mm").subtract(1, "years");
+                        console.log(convert);
+                        var now = moment();
+                        console.log("CURRENT TIME: " + moment(now).format("hh:mm A"));
+                        var later = moment().diff(moment(convert), "minutes");
+                        console.log("Difference In Time: " + later);
+                        var tRemainder = now % sv.frequency;
+                        console.log(tRemainder);
+                        var minTill = sv.frequency - tRemainder;
+                        console.log("MINUTES TILL TRAIN: " + minTill);
+                        var next = moment().add(minTill, "minutes");
+                        console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm A"));
+                        var nextTrain = moment(next).format("hh:mm A")
+                        if (sv.time === "00:00") {
+                            later === "12:00PM"
+                        }
 
-                database.ref().push(addTrain)
-                $("#train-input").val("");
-                $("#destination-input").val("");
-                $("#time-input").val("");
-                $("#frequency-input").val("");
-            })
-            //add modal 
-            database.ref().on("child_added", function (snapshot) {
-                var sv = snapshot.val();
-                
-                var convert = moment(now, "HH:mm").subtract(1, "years");
-                console.log(convert);
-                var now= currentTime;
-                console.log("CURRENT TIME: " + moment(now).format("hh:mm A"));
-                var later = moment().diff(moment(convert), "minutes");
-                console.log("Difference In Time: " + later);
-                var tRemainder = now % sv.frequency;
-                console.log(tRemainder);
-                var minTill = sv.frequency - tRemainder;
-                console.log("MINUTES TILL TRAIN: " + minTill);
-                var next = moment().add(minTill, "minutes");
-                console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm A"));
-                var nextTrain = moment(next).format("hh:mm A")
-                
-                $("#t").append("<tr> <td>" + sv.name +
-                    "</td> <td>" + sv.destination +
-                    "</td> <td>" + sv.frequency +
-                    "</td> <td>" + nextTrain +
-                    "</td> <td>" + minTill + " </td> </tr>");
+                        $("#t").append("<tr> <td>" + sv.name +
+                            "</td> <td>" + sv.destination +
+                            "</td> <td>" + sv.frequency +
+                            "</td> <td>" + nextTrain +
+                            "</td> <td>" + minTill + " </td> </tr>");
+                    }, function (errorObject) {
+                        console.log("Errors handled: " + errorObject.code);
+                    });
 
 
-            }, function (errorObject) {
-                console.log("Errors handled: " + errorObject.code);
-            });
-
-        });
-    </script>
+                });
+            </script>
 
 </body>
 
